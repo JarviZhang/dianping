@@ -31,7 +31,6 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         //1 获取请求头中token
         String token = request.getHeader("authorization");
         if (StrUtil.isBlank(token)){
-            response.setStatus(401);
             return true;
         }
         //2. 获取session中的用户
@@ -41,8 +40,6 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         Map<Object, Object> userMap = stringRedisTemplate.opsForHash().entries(key);
         //3. 判断用户是否存在
         if (userMap.isEmpty()){
-            //4. 不存在则拦截
-            response.setStatus(401);
             return true;
         }
         //5. 查询的hash数据转存为UserDTO对象
